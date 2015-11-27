@@ -9,6 +9,8 @@ class Customer < ActiveRecord::Base
     :vip,
   ].freeze
 
+  scope :subscribed, -> { where(email_subscriber: true) }
+
   def lifetime_value
     orders.map(&:total_price).reduce(0, :+)
   end
