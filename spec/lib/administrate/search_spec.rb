@@ -1,9 +1,12 @@
+require "active_support/core_ext/module"
+require "administrate/search"
+require "administrate/resource_resolver"
 require "spec_helper"
 require "support/constant_helpers"
-require "administrate/field/string"
-require "administrate/field/email"
-require "administrate/field/number"
-require "administrate/search"
+
+
+require "spec_helper"
+require "administrate/resource_resolver"
 
 class MockDashboard
   ATTRIBUTE_TYPES = {
@@ -14,46 +17,51 @@ class MockDashboard
 end
 
 describe Administrate::Search do
-  describe "#run" do
-    it "returns all records when no search term" do
-      begin
-        class User; end
-        resolver = double(resource_class: User, dashboard_class: MockDashboard)
-        search = Administrate::Search.new(resolver, nil)
-        expect(User).to receive(:all)
+  describe "#scope" do
+    let(:controller_path) { "admin/users" }
+    let(:resource_resolver) { Administrate::ResourceResolver.new(controller_path) }
+    let(:scope) { "active" }
+    let(:query) { "#{scope}:" }
 
-        search.run
+    it 'give us the search scope' do
+      begin
+        class User
+          def self.active; end
+        end
+        search = Administrate::Search.new(resource_resolver, query)
+        expect(search.scope).to eq(scope)
       ensure
         remove_constants :User
       end
     end
 
-    it "returns all records when search is empty" do
+    it "returns nil if the name of the scope looks suspicious" do
       begin
-        class User; end
-        resolver = double(resource_class: User, dashboard_class: MockDashboard)
-        search = Administrate::Search.new(resolver, "   ")
-        expect(User).to receive(:all)
+        class User
+          class << self
+            def destroy_all; end
+          end
+        end
 
-        search.run
+        Administrate::Search::BLACKLISTED_WORDS.each do |word|
+          search = Administrate::Search.new(resource_resolver, "#{word}_all:")
+          expect(search.scope).to eq(nil)
+        end
       ensure
         remove_constants :User
       end
     end
 
-    it "searches using lower() + LIKE for all searchable fields" do
+    it "returns nil if the name of the scope ends with an exclamation mark" do
       begin
-        class User; end
-        resolver = double(resource_class: User, dashboard_class: MockDashboard)
-        search = Administrate::Search.new(resolver, "test")
-        expected_query = [
-          "lower(name) LIKE ? OR lower(email) LIKE ?",
-          "%test%",
-          "%test%",
-        ]
-        expect(User).to receive(:where).with(*expected_query)
+        class User
+          class << self
+            def bang!; end
+          end
+        end
 
-        search.run
+        search = Administrate::Search.new(resource_resolver, 'bang!:')
+        expect(search.scope).to eq(nil)
       ensure
         remove_constants :User
       end
