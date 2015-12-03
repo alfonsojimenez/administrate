@@ -1,11 +1,6 @@
+require "support/constant_helpers"
 require "active_support/core_ext/module"
 require "administrate/search"
-require "administrate/resource_resolver"
-require "spec_helper"
-require "support/constant_helpers"
-
-
-require "spec_helper"
 require "administrate/resource_resolver"
 
 class MockDashboard
@@ -19,11 +14,13 @@ end
 describe Administrate::Search do
   describe "#scope" do
     let(:controller_path) { "admin/users" }
-    let(:resource_resolver) { Administrate::ResourceResolver.new(controller_path) }
+    let(:resource_resolver) do
+      Administrate::ResourceResolver.new(controller_path)
+    end
     let(:scope) { "active" }
     let(:query) { "#{scope}:" }
 
-    it 'give us the search scope' do
+    it "give us the search scope" do
       begin
         class User
           def self.active; end
@@ -60,7 +57,7 @@ describe Administrate::Search do
           end
         end
 
-        search = Administrate::Search.new(resource_resolver, 'bang!:')
+        search = Administrate::Search.new(resource_resolver, "bang!:")
         expect(search.scope).to eq(nil)
       ensure
         remove_constants :User
