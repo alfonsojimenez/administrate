@@ -28,7 +28,7 @@ describe Administrate::Search do
     let(:scope) { "active" }
 
     describe "the query is only the scope" do
-      let(:query) { "#{scope}:" }
+      let(:query) { "scope:#{scope}" }
 
       it "returns nil if the model does not respond to the possible scope" do
         begin
@@ -50,21 +50,18 @@ describe Administrate::Search do
         ensure
           remove_constants :User
         end
-<<<<<<< HEAD
-
-        search = Administrate::Search.new(resource_resolver, query)
-        expect(search.scope).to eq(scope)
       end
 
-      it "returns nil if the name of the scope looks suspicious" do
-        class User
-          def self.destroy_all; end
+      it "ignores the case of the 'scope:' prefix" do
+        begin
+          class User
+            def self.active; end
+          end
+          search = Administrate::Search.new(resolver, "ScoPE:#{scope}")
+          expect(search.scope).to eq(scope)
+        ensure
+          remove_constants :User
         end
-
-        Administrate::Search::BLACKLISTED_WORDS.each do |word|
-          search = Administrate::Search.new(resource_resolver, "#{word}_all:")
-          expect(search.scope).to eq(nil)
-=======
       end
 
       it "returns nil if the name of the scope looks suspicious" do
@@ -74,12 +71,11 @@ describe Administrate::Search do
           end
 
           Administrate::Search::BLACKLISTED_WORDS.each do |word|
-            search = Administrate::Search.new(resolver, "#{word}_all:")
+            search = Administrate::Search.new(resolver, "scope:#{word}_all")
             expect(search.scope).to eq(nil)
           end
         ensure
           remove_constants :User
->>>>>>> Dashboard's COLLECTION_SCOPES for the index page (2/2)
         end
       end
 
@@ -90,10 +86,14 @@ describe Administrate::Search do
           end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         search = Administrate::Search.new(resource_resolver, "bang!:")
         expect(search.scope).to eq(nil)
 =======
           search = Administrate::Search.new(resolver, "bang!:")
+=======
+          search = Administrate::Search.new(resolver, "scope:bang!")
+>>>>>>> search into scope syntax changed
           expect(search.scope).to eq(nil)
         ensure
           remove_constants :User
@@ -113,7 +113,7 @@ describe Administrate::Search do
               def self.closed; end
               def self.active; end
             end
-            search = Administrate::Search.new(resolver, "closed:")
+            search = Administrate::Search.new(resolver, "scope:closed")
             expect(search.scope).to eq(nil)
           ensure
             remove_constants :User
@@ -126,7 +126,7 @@ describe Administrate::Search do
               def self.closed; end
               def self.active; end
             end
-            search = Administrate::Search.new(resolver, "active:")
+            search = Administrate::Search.new(resolver, "scope:active")
             expect(search.scope).to eq("active")
           ensure
             remove_constants :User
@@ -137,7 +137,7 @@ describe Administrate::Search do
 
     describe "the query is the scope followed by the term" do
       let(:term) { "foobar" }
-      let(:query) { "#{scope}: #{term}" }
+      let(:query) { "scope:#{scope} #{term}" }
 
       it "returns the scope and the term" do
         begin
