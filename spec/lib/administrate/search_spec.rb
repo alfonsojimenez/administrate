@@ -217,7 +217,7 @@ describe Administrate::Search do
               def self.active; end
               def self.subscribed; end
             end
-  
+ 
             search = Administrate::Search.new(resolver, query)
             expect(search.scopes).to eq([scope, other_scope])
             expect(search.words).to eq([word])
@@ -236,7 +236,7 @@ describe Administrate::Search do
               def self.active; end
               def self.subscribed; end
             end
-  
+ 
             search = Administrate::Search.new(resolver, query)
             expect(search.scopes).to eq([scope, other_scope])
             expect(search.words).to eq([word])
