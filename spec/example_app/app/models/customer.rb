@@ -10,6 +10,7 @@ class Customer < ActiveRecord::Base
   ].freeze
 
   scope :subscribed, -> { where(email_subscriber: true) }
+  scope :old, -> { where("created_at < ?", 3.years.ago) }
 
   def lifetime_value
     orders.map(&:total_price).reduce(0, :+)
