@@ -350,7 +350,8 @@ describe Administrate::Search do
 
       describe "plus a word" do
         let(:word) { "foobar" }
-        let(:query) { "scope:#{scope}(#{argument}) #{word}" }
+        let(:scope_with_argument) { "#{scope}(#{argument})" }
+        let(:query) { "scope:#{scope_with_argument} #{word}" }
 
         it "returns [scope], #arguments [argument] and #words [word]" do
           begin
@@ -361,6 +362,7 @@ describe Administrate::Search do
             expect(search.words).to eq([word])
             expect(search.scopes).to eq([scope])
             expect(search.arguments).to eq([argument])
+            expect(search.scopes_with_arguments).to eq([scope_with_argument])
           ensure
             remove_constants :User
           end
