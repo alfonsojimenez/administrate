@@ -57,5 +57,13 @@ module Administrate
              scope: SCOPES_LOCALE_SCOPE + [resource_name],
              default: I18n.t(key, scope: SCOPES_LOCALE_SCOPE)
     end
+
+    def sanitized_order_params
+      params.permit(:search, :id, :order, :page, :per_page, :direction)
+    end
+
+    def clear_search_params
+      params.except(:search, :page).permit(:order, :direction, :per_page)
+    end
   end
 end

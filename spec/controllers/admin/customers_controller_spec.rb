@@ -24,19 +24,6 @@ describe Admin::CustomersController, type: :controller do
     end
   end
 
-  def expect_locals
-    first_call = true
-
-    expect(@controller).to have_received(:render).twice do |options|
-      if first_call
-        expect(options).not_to be_nil
-        yield options[:locals]
-      end
-
-      first_call = false
-    end
-  end
-
   describe "GET show" do
     it "passes a page object to the view" do
       customer = create(:customer)
@@ -164,7 +151,7 @@ describe Admin::CustomersController, type: :controller do
       customer = create(:customer)
 
       expect do
-        delete :destroy, {id: customer.to_param}
+        delete :destroy, id: customer.to_param
       end.to change(Customer, :count).by(-1)
     end
 
