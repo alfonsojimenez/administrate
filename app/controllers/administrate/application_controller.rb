@@ -15,6 +15,7 @@ module Administrate
         resources: resources,
         search_term: search.term,
         page: page,
+        show_search_bar: show_search_bar?
       }
     end
 
@@ -127,6 +128,12 @@ module Administrate
         "administrate.controller.#{key}",
         resource: resource_resolver.resource_title,
       )
+    end
+
+    def show_search_bar?
+      dashboard.attribute_types_for(
+        dashboard.collection_attributes
+      ).any? { |_name, attribute| attribute.searchable? }
     end
   end
 end
