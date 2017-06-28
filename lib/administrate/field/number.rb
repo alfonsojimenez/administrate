@@ -4,11 +4,7 @@ module Administrate
   module Field
     class Number < Field::Base
       def to_s
-        if data.nil?
-          "-"
-        else
-          format_string % value
-        end
+        data.nil? ? "-" : format_string % value
       end
 
       private
@@ -26,7 +22,9 @@ module Administrate
       end
 
       def decimals
-        options.fetch(:decimals, 0)
+        _left, right = data.to_s.split(".")
+        default = right.nil? ? 0 : right.size
+        options.fetch(:decimals, default)
       end
 
       def value

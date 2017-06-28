@@ -3,7 +3,9 @@ module Administrate
     protect_from_forgery with: :exception
 
     def index
-      resources = search.run
+      search_term = params[:search].to_s.strip
+      resources = Administrate::Search.new(resource_resolver, search_term).run
+      resources = resources.includes(*resource_includes) if resource_includes.any?
       resources = order.apply(resources)
       resources = resources.page(params[:page]).per(records_per_page)
       page = Administrate::Page::Collection.new(
@@ -75,11 +77,7 @@ module Administrate
 
     helper_method :nav_link_state
     def nav_link_state(resource)
-      if resource_name.to_s.pluralize == resource.to_s
-        :active
-      else
-        :inactive
-      end
+      resource_name.to_s.pluralize == resource.to_s ? :active : :inactive
     end
 
     helper_method :valid_action?
@@ -115,6 +113,10 @@ module Administrate
 
     def find_resource(param)
       resource_class.find(param)
+    end
+
+    def resource_includes
+      dashboard.association_includes
     end
 
     def resource_params
