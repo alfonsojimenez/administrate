@@ -15,7 +15,7 @@ Check the [release notes] for important updates.
 
 [release notes]: https://github.com/thoughtbot/administrate/releases
 
-![administrate](https://cloud.githubusercontent.com/assets/903327/23998153/94899eee-0a2a-11e7-94ed-348515728aaf.png)
+![administrate](https://cloud.githubusercontent.com/assets/903327/25823003/a5cc6aee-3408-11e7-8bcb-c62bb7addf40.png)
 
 ## What Is Administrate?
 
@@ -129,7 +129,7 @@ community](https://github.com/thoughtbot/administrate/graphs/contributors).
 
 administrate is Copyright © 2015-2017 thoughtbot.
 It is free software, and may be redistributed under the terms specified in the
-[LICENSE](/LICENSE) file.
+[LICENSE](/LICENSE.md) file.
 
 ## About thoughtbot
 

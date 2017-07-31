@@ -25,3 +25,6 @@ fr:
         not_supported: Les relations HasOne dans les formulaires ne sont pas supportées.
     scopes:
       scopes: Filtres
+    search:
+      clear: Effacer la recherche
+      label: Chercher %{resource}

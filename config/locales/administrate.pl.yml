@@ -25,3 +25,6 @@ pl:
         not_supported: Relacje jeden-do-jednego nie są obsługiwane.
     scopes:
       scopes: Filtry
+    search:
+      clear: Wyczyść wyszukiwanie
+      label: Szukanie %{resource}

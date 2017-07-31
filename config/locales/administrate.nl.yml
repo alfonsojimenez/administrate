@@ -25,3 +25,6 @@ nl:
         not_supported: HasOne relaties formulieren worden niet ondersteund.
     scopes:
       scopes: Filters
+    search:
+      clear: CDuidelijke zoek
+      label: Zoeken %{resource}

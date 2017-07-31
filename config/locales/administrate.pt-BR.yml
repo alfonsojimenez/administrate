@@ -26,3 +26,6 @@ pt-BR:
         not_supported: Relações um para muitos nos formulários não são suportadas.
     scopes:
       scopes: Filtros
+    search:
+      clear: Limpar pesquisa
+      label: Pesquisa %{resource}

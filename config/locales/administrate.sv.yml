@@ -25,3 +25,6 @@ sv:
         not_supported: Formulär med HasOne relationer stöds inte.
     scopes:
       scopes: Filter
+    search:
+      clear: Rensa sökningen
+      label: Sök %{resource}

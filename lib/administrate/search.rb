@@ -8,11 +8,11 @@ module Administrate
 
     attr_reader :resolver, :term, :words
 
-    def initialize(resolver, term)
-      @term = term.to_s.strip
-      @resolver = resolver
-      @words, @scopes = words_and_scopes_of(@term ? @term.split : [])
-    end
+    #def initialize(resolver, term)
+      #@term = term.to_s.strip
+      #@resolver = resolver
+      #@words, @scopes = words_and_scopes_of(@term ? @term.split : [])
+    #end
 
     def scopes
       @scopes.map(&:name)
@@ -30,23 +30,27 @@ module Administrate
       scopes.first
     end
 
+    def initialize(scoped_resource, dashboard_class, term)
+      @dashboard_class = dashboard_class
+      @scoped_resource = scoped_resource
+      @term = term.to_s.strip
+      @words, @scopes = words_and_scopes_of(@term ? @term.split : [])
+    end
+
     def run
       if @term.blank?
-        resource_class.all
+        @scoped_resource.all
       else
         resources = if @words.empty?
-                      resource_class.all
+                      @scoped_resource.all
                     else
-                      resource_class.where(query, *search_terms)
+                      @scoped_resource.where(query, *search_terms)
                     end
         filter_with_scopes(resources)
       end
     end
 
     private
-
-    delegate :resource_class, to: :resolver
-    delegate :dashboard_class, to: :resolver
 
     def filter_with_scopes(resources)
       @scopes.each do |scope|
@@ -62,7 +66,7 @@ module Administrate
     def query
       search_attributes.map do |attr|
         table_name = ActiveRecord::Base.connection.
-          quote_table_name(resource_class.table_name)
+          quote_table_name(@scoped_resource.table_name)
         attr_name = ActiveRecord::Base.connection.quote_column_name(attr)
         "lower(#{table_name}.#{attr_name}) LIKE ?"
       end.join(" OR ")
@@ -70,6 +74,7 @@ module Administrate
 
     def search_terms
       ["%#{words.join.downcase}%"] * search_attributes.count
+      #["%#{term.mb_chars.downcase}%"] * search_attributes.count
     end
 
     def search_attributes
@@ -79,15 +84,16 @@ module Administrate
     end
 
     def attribute_types
-      resolver.dashboard_class::ATTRIBUTE_TYPES
+      @dashboard_class::ATTRIBUTE_TYPES
     end
 
     # Extracts the possible scope from *term* (a single word string) and
     # returns it if the model responds to it and is a valid_scope?
     def scope_object(term)
       if term && (/(?<left_part>\w+):(?<right_part>.+)/i =~ term)
+
         obj = build_scope_ostruct(left_part, right_part)
-        obj if resource_class.respond_to?(obj.name) && valid_scope?(obj)
+        obj if @scoped_resource.respond_to?(obj.name) && valid_scope?(obj)
       end
     end
 
@@ -117,7 +123,7 @@ module Administrate
       if collection_scopes.any?
         collection_scopes_include?(scope_obj.user_input) ||
           wildcarded_scope?(scope_obj.name)
-      elsif dashboard_class.const_defined?(:COLLECTION_SCOPES)
+      elsif @dashboard_class.const_defined?(:COLLECTION_SCOPES)
         false
       else
         !banged?(scope_obj.user_input) &&
@@ -145,8 +151,8 @@ module Administrate
     end
 
     def collection_scopes
-      @_scopes ||= if dashboard_class.const_defined?(:COLLECTION_SCOPES)
-                     const = dashboard_class.const_get(:COLLECTION_SCOPES)
+      @_scopes ||= if @dashboard_class.const_defined?(:COLLECTION_SCOPES)
+                     const = @dashboard_class.const_get(:COLLECTION_SCOPES)
                      const.is_a?(Array) ? const : const.values.flatten
                    else
                      []

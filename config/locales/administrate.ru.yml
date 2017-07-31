@@ -25,3 +25,6 @@ ru:
         not_supported: HasOne отношения в формах не поддерживаются.
     scopes:
       scopes: фильтры
+    search:
+      clear: Очистить поиск
+      label: Поиск %{resource}

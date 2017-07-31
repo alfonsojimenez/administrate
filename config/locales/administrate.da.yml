@@ -25,3 +25,6 @@ da:
         not_supported: "Formularer med has_one associationer er ikke understøttede."
     scopes:
       scopes: Filtre
+    search:
+      clear: Ryd søgning
+      label: Søg %{resource}

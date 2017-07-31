@@ -25,3 +25,6 @@ uk:
         not_supported: HasOne відношення у формах не підтримуються.
     scopes:
       scopes: Filters
+    search:
+      clear: Очистити пошук
+      label: пошук %{resource}

@@ -25,3 +25,6 @@ es:
         not_supported: Los formularios con relaciones HasOne no están soportados.
     scopes:
       scopes: Filtros
+    search:
+      clear: Borrar búsqueda
+      label: Buscar %{resource}

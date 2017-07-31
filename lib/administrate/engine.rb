@@ -2,7 +2,6 @@ require "datetime_picker_rails"
 require "jquery-rails"
 require "kaminari"
 require "momentjs-rails"
-require "normalize-rails"
 require "sass-rails"
 require "selectize-rails"
 require "sprockets/railtie"
@@ -22,13 +21,6 @@ module Administrate
 
     @@javascripts = []
     @@stylesheets = []
-
-    Engine.config.assets.precompile << %w(
-      administrate/cancel.svg
-      administrate/dropdown.svg
-      administrate/search.svg
-      administrate/sort_arrow.svg
-    )
 
     def self.add_javascript(script)
       @@javascripts << script

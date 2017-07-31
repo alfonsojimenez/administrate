@@ -25,3 +25,6 @@ vi:
         not_supported: Quan hệ HasOne chưa được hỗ trợ.
     scopes:
       scopes: Bộ lọc
+    search:
+      clear: Tìm kiếm rõ ràng
+      label: Tìm kiếm %{resource}

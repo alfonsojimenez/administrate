@@ -25,3 +25,6 @@ de:
         not_supported: HasOne Beziehungen werden nicht unterstützt.
     scopes:
       scopes: Filter
+    search:
+      clear: Saubere Suche
+      label: Suche %{resource}
