@@ -5,8 +5,9 @@ fr:
       confirm: Êtes-vous sûr ?
       destroy: Supprimer
       edit: Modifier
-      show: Détails
-      new: Création
+      edit_resource: Modifier %{name}
+      show_resource: Détails %{name}
+      new_resource: Création %{name}
       back: Précédent
     controller:
       create:
@@ -25,6 +26,9 @@ fr:
         not_supported: Les relations HasOne dans les formulaires ne sont pas supportées.
     scopes:
       scopes: Filtres
+    form:
+      error: erreur
+      errors: "%{pluralized_errors} ont empêchés %{resource_name} d'être sauvergardé :"
     search:
       clear: Effacer la recherche
       label: Chercher %{resource}

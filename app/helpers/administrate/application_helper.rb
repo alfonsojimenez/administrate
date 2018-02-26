@@ -7,11 +7,12 @@ module Administrate
       render locals: locals, partial: field.to_partial_path
     end
 
+    def class_from_resource(resource_name)
+      resource_name.to_s.classify.constantize
+    end
+
     def display_resource_name(resource_name)
-      resource_name.
-        to_s.
-        classify.
-        constantize.
+      class_from_resource(resource_name).
         model_name.
         human(
           count: PLURAL_MANY_COUNT,
@@ -50,6 +51,10 @@ module Administrate
       I18n.t key,
              scope: SCOPES_LOCALE_SCOPE + [resource_name],
              default: I18n.t(key, scope: SCOPES_LOCALE_SCOPE)
+    end
+
+    def resource_index_route_key(resource_name)
+      ActiveModel::Naming.route_key(class_from_resource(resource_name))
     end
 
     def sanitized_order_params

@@ -5,8 +5,9 @@ it:
       confirm: Sei sicuro?
       destroy: Elimina
       edit: Modifica
-      show: Visualizza
-      new: Nuovo
+      edit_resource: Modifica %{name}
+      show_resource: Visualizza %{name}
+      new_resource: Nuovo %{name}
       back: Indietro
     controller:
       create:
@@ -25,6 +26,9 @@ it:
         not_supported: Associazioni HasOne non ancora supportate. Spiacenti!
     scopes:
       scopes: Filtri
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
     search:
       clear: Cancella ricerca
       label: Ricerca %{resource}

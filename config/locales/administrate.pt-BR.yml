@@ -6,8 +6,9 @@ pt-BR:
       confirm: Você tem certeza?
       destroy: Deletar
       edit: Editar
-      show: Visualizar
-      new: Criar
+      edit_resource: Editar %{name}
+      show_resource: Visualizar %{name}
+      new_resource: Criar %{name}
       back: Voltar
     controller:
       create:
@@ -26,6 +27,9 @@ pt-BR:
         not_supported: Relações um para muitos nos formulários não são suportadas.
     scopes:
       scopes: Filtros
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
     search:
       clear: Limpar pesquisa
       label: Pesquisa %{resource}

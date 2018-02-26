@@ -5,8 +5,9 @@ vi:
       confirm: Bạn có chắc không?
       destroy: Xóa
       edit: Sửa
-      show: Xem
-      new: Mới
+      edit_resource: Sửa %{name}
+      show_resource: Xem %{name}
+      new_resource: Mới %{name}
       back: Trở lại
     controller:
       create:
@@ -25,6 +26,9 @@ vi:
         not_supported: Quan hệ HasOne chưa được hỗ trợ.
     scopes:
       scopes: Bộ lọc
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
     search:
       clear: Tìm kiếm rõ ràng
       label: Tìm kiếm %{resource}
