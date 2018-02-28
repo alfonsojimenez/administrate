@@ -68,13 +68,12 @@ module Administrate
         table_name = ActiveRecord::Base.connection.
           quote_table_name(@scoped_resource.table_name)
         attr_name = ActiveRecord::Base.connection.quote_column_name(attr)
-        "LOWER(TEXT(#{table_name}.#{attr_name})) LIKE ?"
+        "LOWER(#{table_name}.#{attr_name}) LIKE ?"
       end.join(" OR ")
     end
 
     def search_terms
       ["%#{words.join.downcase}%"] * search_attributes.count
-      #["%#{term.mb_chars.downcase}%"] * search_attributes.count
     end
 
     def search_attributes
