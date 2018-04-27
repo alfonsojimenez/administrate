@@ -16,6 +16,21 @@ feature "Search" do
     expect(page).not_to have_content(mismatch.email)
   end
 
+  scenario "admin searches for order by id", :js do
+    # Long, predictable ids to avoid simple numbers matching more than one thing
+    orders = Array.new(4) { |i| create(:order, id: (i + 1).to_s * 7) }
+    target, *rest = orders.shuffle
+
+    visit admin_orders_path
+    fill_in :search, with: target.id
+    submit_search
+
+    expect(page).to have_css("table tr", text: order_row_match(target))
+    rest.each do |order|
+      expect(page).not_to have_css("table tr", text: order_row_match(order))
+    end
+  end
+
   scenario "admin searches across different fields", :js do
     query = "dan"
     name_match = create(:customer, name: "Dan Croak", email: "foo@bar.com")
@@ -215,6 +230,21 @@ feature "Search" do
     expect(page).to have_content(mismatch.email)
   end
 
+  scenario "admin searches across associations fields", :js do
+    country = create(:country, name: "Brazil", code: "BR")
+    country_match = create(:customer, country: country)
+    mismatch = create(:customer)
+
+    visit admin_customers_path
+
+    fill_in :search, with: "Brazil"
+    submit_search
+
+    expect(page).to have_content(country_match.email)
+    expect(page).to have_content(country.name)
+    expect(page).not_to have_content(mismatch.email)
+  end
+
   def clear_search
     find(".search__clear-link").click
   end
@@ -225,5 +255,9 @@ feature "Search" do
 
   def submit_search
     page.execute_script("$('.search').submit()")
+  end
+
+  def order_row_match(order)
+    %r{#{order.id} #{order.customer.name} }
   end
 end
