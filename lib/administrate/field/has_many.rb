@@ -49,7 +49,7 @@ module Administrate
       end
 
       def data
-        @data ||= associated_class.none 
+        @data ||= associated_class.none
       end
 
       private
@@ -59,11 +59,20 @@ module Administrate
       end
 
       def candidate_resources
+        scope = options[:scope] ? options[:scope].call : associated_class.all
+
+        if options[:filter_by]
+          conditions = options[:filter_by].map { |filter| [filter, resource.send(filter)] }.to_h
+
+          scope = scope.where(conditions)
+        end
+
+
         if options.key?(:includes)
           includes = options.fetch(:includes)
-          associated_class.includes(*includes).all
+          scope.includes(*includes).all
         else
-          associated_class.all
+          scope.all
         end
       end
 

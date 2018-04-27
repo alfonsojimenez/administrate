@@ -207,7 +207,5 @@ module Administrate
         Administrate::Field::HasOne,
       ].include?(attribute_types[attribute].deferred_class)
     end
-
-    attr_reader :resolver, :term
   end
 end

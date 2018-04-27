@@ -24,7 +24,15 @@ module Administrate
       private
 
       def candidate_resources
-        scope = options[:scope] ? options[:scope].call : associated_class.all
+        scope = associated_class
+
+        if options[:filter_by] && !resource.new_record?
+          conditions = options[:filter_by].map { |filter| [filter, resource.send(filter)] }.to_h
+
+          scope = scope.where(conditions)
+        end
+
+        scope = options[:scope] ? options[:scope].call : scope.all
 
         order = options.delete(:order)
         order ? scope.reorder(order) : scope
