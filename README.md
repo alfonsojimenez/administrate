@@ -3,6 +3,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/thoughtbot/administrate.svg)](https://circleci.com/gh/thoughtbot/administrate/tree/master)
 [![Gem Version](https://badge.fury.io/rb/administrate.svg)](https://badge.fury.io/rb/administrate)
 [![Code Climate](https://codeclimate.com/github/thoughtbot/administrate/badges/gpa.svg)](https://codeclimate.com/github/thoughtbot/administrate)
+[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 
 A framework for creating flexible, powerful admin dashboards in Rails.
 [Try the demo][demo].
@@ -132,7 +133,7 @@ community](https://github.com/thoughtbot/administrate/graphs/contributors).
 
 ## License
 
-administrate is Copyright © 2015-2017 thoughtbot.
+administrate is Copyright © 2015-2018 thoughtbot.
 It is free software, and may be redistributed under the terms specified in the
 [LICENSE](/LICENSE.md) file.
 
