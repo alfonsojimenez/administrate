@@ -53,6 +53,9 @@ It renders the `_table` partial to display details about the resources.
 </header>
 
 <section class="main-content__body main-content__body--flush">
+  <div>
+    <%= render(partial: 'scope_buttons_group', collection: page.scope_groups, locals: { page: page }) %>
+  </div>
   <%= render(
     "collection",
     collection_presenter: page,
